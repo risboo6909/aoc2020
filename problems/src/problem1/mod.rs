@@ -1,35 +1,44 @@
+use std::collections::HashSet;
+
 use failure::{format_err, Error};
 use utils::{result, split_by_lines, ProblemResult, RetTypes};
 
-fn fuel_req(mass: usize) -> usize {
-    let a = mass / 3;
-    if a >= 2 {
-        a - 2
-    } else {
-        0
+const YEAR: usize = 2020;
+
+fn find_pair_sum(input: &[usize], expected: usize) -> Option<(usize, usize)> {
+    let mut lookup: HashSet<usize> = HashSet::new();
+
+    for n in input {
+        if *n > expected {
+            continue;
+        }
+
+        let to_add = expected - n;
+        if lookup.contains(&to_add) {
+            // found!
+            return Some((to_add, *n));
+        }
+        lookup.insert(*n);
     }
+
+    None
 }
 
 fn first_star(input: &[usize]) -> ProblemResult<usize> {
-    let mut fuel = 0;
-    for mass in input {
-        fuel += fuel_req(*mass);
+    match find_pair_sum(input, YEAR) {
+        Some((a, b)) => Ok(a * b),
+        None => Err(format_err!("solution not found")),
     }
-    Ok(fuel)
 }
 
 fn second_star(input: &[usize]) -> ProblemResult<usize> {
-    let mut fuel = 0;
-
-    for mass in input {
-        let mut mass_remain = *mass;
-        while mass_remain > 0 {
-            mass_remain = fuel_req(mass_remain);
-            fuel += mass_remain;
+    for c in input {
+        if let Some((a, b)) = find_pair_sum(input, YEAR - c) {
+            return Ok(a * b * c);
         }
     }
 
-    Ok(fuel)
+    Err(format_err!("solution not found"))
 }
 
 pub(crate) fn solve() -> Result<RetTypes, Error> {
@@ -39,10 +48,8 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
             .or_else(|_| Err(format_err!("Failed to parse input")))
     })?;
 
-    Ok(
-        RetTypes::Usize(
-            result(first_star(&input), second_star(&input))
-        )
-    )
-
+    Ok(RetTypes::Usize(result(
+        first_star(&input),
+        second_star(&input),
+    )))
 }

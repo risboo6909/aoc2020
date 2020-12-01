@@ -1,10 +1,10 @@
 mod problem1;
 
-use std::{time::SystemTime, marker::Sync, sync::Arc};
-use crossbeam::{queue::SegQueue, thread};
-use num_cpus;
 use colored::*;
+use crossbeam::{queue::SegQueue, thread};
 use failure::Error;
+use num_cpus;
+use std::{marker::Sync, sync::Arc, time::SystemTime};
 
 use utils::RetTypes;
 
@@ -12,7 +12,6 @@ use utils::RetTypes;
 use crate::problem1 as p1;
 
 fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
-
     let now = SystemTime::now();
     let result = f();
     let elapsed = now.elapsed().unwrap().as_millis();
@@ -38,10 +37,10 @@ fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
 }
 
 fn main() {
-
     println!("\n{}\n\n", "Advent of code 2020".bold());
 
-    let q: Arc<SegQueue<(&(dyn Fn() -> Result<RetTypes, Error> + Sync), usize)>> = Arc::new(SegQueue::new());
+    let q: Arc<SegQueue<(&(dyn Fn() -> Result<RetTypes, Error> + Sync), usize)>> =
+        Arc::new(SegQueue::new());
 
     q.push((&p1::solve, 1));
 
@@ -59,7 +58,8 @@ fn main() {
                 }
             });
         }
-    }).unwrap();
+    })
+    .unwrap();
 
     println!(
         "{} {} {}",
