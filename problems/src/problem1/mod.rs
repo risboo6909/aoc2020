@@ -5,10 +5,10 @@ use utils::{result, split_by_lines, ProblemResult, RetTypes};
 
 const YEAR: usize = 2020;
 
-fn find_pair_sum(input: &[usize], expected: usize) -> Option<(usize, usize)> {
+fn find_pair_sum(input: &[usize], expected: usize, start_from: usize) -> Option<(usize, usize)> {
     let mut lookup: HashSet<usize> = HashSet::new();
 
-    for n in input {
+    for n in input.iter().skip(start_from) {
         if *n > expected {
             continue;
         }
@@ -25,15 +25,15 @@ fn find_pair_sum(input: &[usize], expected: usize) -> Option<(usize, usize)> {
 }
 
 fn first_star(input: &[usize]) -> ProblemResult<usize> {
-    match find_pair_sum(input, YEAR) {
+    match find_pair_sum(input, YEAR, 0) {
         Some((a, b)) => Ok(a * b),
         None => Err(format_err!("solution not found")),
     }
 }
 
 fn second_star(input: &[usize]) -> ProblemResult<usize> {
-    for c in input {
-        if let Some((a, b)) = find_pair_sum(input, YEAR - c) {
+    for (idx, c) in input.iter().enumerate() {
+        if let Some((a, b)) = find_pair_sum(input, YEAR - c, idx + 1) {
             return Ok(a * b * c);
         }
     }
