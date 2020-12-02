@@ -3,8 +3,8 @@ use utils::{result, split_by_lines, ProblemResult, RetTypes};
 
 #[derive(Debug)]
 struct PasswdItem {
-    first_number: usize,
-    second_number: usize,
+    first_pos: usize,
+    second_pos: usize,
     symbol: char,
     passwd: String,
 }
@@ -15,13 +15,14 @@ impl PasswdItem {
             .passwd
             .chars()
             .fold(0, |acc, s| if s == self.symbol { acc + 1 } else { acc });
-        n >= self.first_number && n <= self.second_number
+        n >= self.first_pos && n <= self.second_pos
+
     }
 
     fn is_valid_2(&self) -> bool {
         let tmp = self.passwd.chars().collect::<Vec<char>>();
-        let idx1 = self.first_number - 1;
-        let idx2 = self.second_number - 1;
+        let idx1 = self.first_pos - 1;
+        let idx2 = self.second_pos - 1;
         (tmp[idx1] == self.symbol && tmp[idx2] != self.symbol)
             || (tmp[idx1] != self.symbol && tmp[idx2] == self.symbol)
     }
@@ -56,8 +57,9 @@ fn parse(input_raw: &str) -> Result<Vec<PasswdItem>, Error> {
         let (min_appear, max_apprar) = (parts[0], parts[1]);
 
         Ok(PasswdItem {
-            first_number: min_appear.parse::<usize>()?,
-            second_number: max_apprar.parse::<usize>()?,
+            first_pos: min_appear.parse::<usize>()?,
+            second_pos
+    : max_apprar.parse::<usize>()?,
             symbol: symbol.trim().chars().collect::<Vec<char>>()[0],
             passwd: suffix.trim().to_owned(),
         })
