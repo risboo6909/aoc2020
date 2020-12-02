@@ -16,7 +16,6 @@ impl PasswdItem {
             .chars()
             .fold(0, |acc, s| if s == self.symbol { acc + 1 } else { acc });
         n >= self.first_pos && n <= self.second_pos
-
     }
 
     fn is_valid_2(&self) -> bool {
@@ -44,24 +43,16 @@ fn second_star(input: &[PasswdItem]) -> ProblemResult<usize> {
 
 fn parse(input_raw: &str) -> Result<Vec<PasswdItem>, Error> {
     let res: Vec<PasswdItem> = split_by_lines(input_raw, &|line: &str| {
-        // to parse "1-3 a: abcde", first split by ":"
-        let parts = line.trim().split(':').collect::<Vec<&str>>();
-        let (prefix, suffix) = (parts[0], parts[1]);
+        let tmp = line.trim().replace(':', " ").replace('-', &" ");
+        let v = tmp.split_whitespace().collect::<Vec<&str>>();
 
-        // then split by " " to parse "1-3 a" part
-        let parts = prefix.split(' ').collect::<Vec<&str>>();
-        let (interval, symbol) = (parts[0], parts[1]);
-
-        // finally, parse "1-3" part
-        let parts = interval.split('-').collect::<Vec<&str>>();
-        let (min_appear, max_apprar) = (parts[0], parts[1]);
+        let (first_pos, second_pos, symbol, passwd) = (v[0], v[1], v[2], v[3]);
 
         Ok(PasswdItem {
-            first_pos: min_appear.parse::<usize>()?,
-            second_pos
-    : max_apprar.parse::<usize>()?,
+            first_pos: first_pos.parse::<usize>()?,
+            second_pos: second_pos.parse::<usize>()?,
             symbol: symbol.trim().chars().collect::<Vec<char>>()[0],
-            passwd: suffix.trim().to_owned(),
+            passwd: passwd.trim().to_owned(),
         })
     })?;
 
