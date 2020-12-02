@@ -1,15 +1,16 @@
 mod problem1;
+mod problem2;
 
 use colored::*;
 use crossbeam::{queue::SegQueue, thread};
 use failure::Error;
-use num_cpus;
 use std::{marker::Sync, sync::Arc, time::SystemTime};
 
 use utils::RetTypes;
 
 // problems
 use crate::problem1 as p1;
+use crate::problem2 as p2;
 
 fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
     let now = SystemTime::now();
@@ -43,6 +44,7 @@ fn main() {
         Arc::new(SegQueue::new());
 
     q.push((&p1::solve, 1));
+    q.push((&p2::solve, 2));
 
     println!("{} cores detected\n", num_cpus::get_physical());
 
