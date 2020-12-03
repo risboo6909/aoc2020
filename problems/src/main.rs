@@ -1,5 +1,9 @@
+#![feature(min_const_generics)]
+#![feature(const_option)]
+
 mod problem1;
 mod problem2;
+mod problem3;
 
 use colored::*;
 use crossbeam::{queue::SegQueue, thread};
@@ -11,6 +15,7 @@ use utils::RetTypes;
 // problems
 use crate::problem1 as p1;
 use crate::problem2 as p2;
+use crate::problem3 as p3;
 
 fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
     let now = SystemTime::now();
@@ -45,6 +50,7 @@ fn main() {
 
     q.push((&p1::solve, 1));
     q.push((&p2::solve, 2));
+    q.push((&p3::solve, 3));
 
     println!("{} cores detected\n", num_cpus::get_physical());
 
