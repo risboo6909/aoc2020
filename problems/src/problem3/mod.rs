@@ -24,7 +24,6 @@ impl From<char> for Cell {
     }
 }
 
-#[derive(Copy, Clone)]
 struct Slope {
     right: usize,
     down: usize,
@@ -57,7 +56,7 @@ impl Board {
     }
 }
 
-fn first_star(board: &Board, slope: Slope) -> ProblemResult<usize> {
+fn first_star(board: &Board, slope: &Slope) -> ProblemResult<usize> {
     let mut cur_col = 0;
     let mut cur_row = 0;
 
@@ -79,7 +78,7 @@ fn second_star(board: &Board, slopes: &[Slope]) -> ProblemResult<usize> {
     Ok(Iterator::product(
         slopes
             .iter()
-            .map(|slope| first_star(board, *slope).unwrap()),
+            .map(|slope| first_star(board, slope).unwrap()),
     ))
 }
 
@@ -110,7 +109,7 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     let board = parse(input_raw)?;
 
     Ok(RetTypes::Usize(result(
-        first_star(&board, Slope { right: 3, down: 1 }),
+        first_star(&board, &Slope { right: 3, down: 1 }),
         second_star(&board, SLOPES),
     )))
 }
@@ -145,7 +144,7 @@ mod tests {
     #[test]
     fn test_first() {
         let board = parse(RAW_INPUT).unwrap();
-        assert_eq!(first_star(&board, Slope { right: 3, down: 1 }).unwrap(), 7);
+        assert_eq!(first_star(&board, &Slope { right: 3, down: 1 }).unwrap(), 7);
     }
 
     #[test]
