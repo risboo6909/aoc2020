@@ -27,7 +27,8 @@ impl Passport {
     }
 
     fn check_height(&self, lower_bound: usize, upper_bound: usize) -> bool {
-        match self.hgt.as_ref().unwrap()[..self.hgt.as_ref().unwrap().len() - 2].parse::<usize>() {
+        let hgt = self.hgt.as_ref().unwrap();
+        match hgt[..hgt.len() - 2].parse::<usize>() {
             Ok(num) => {
                 if num < lower_bound || num > upper_bound {
                     return false;
