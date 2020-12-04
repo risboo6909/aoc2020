@@ -76,9 +76,7 @@ fn first_star(board: &Board, slope: &Slope) -> ProblemResult<usize> {
 
 fn second_star(board: &Board, slopes: &[Slope]) -> ProblemResult<usize> {
     Ok(Iterator::product(
-        slopes
-            .iter()
-            .map(|slope| first_star(board, slope).unwrap()),
+        slopes.iter().map(|slope| first_star(board, slope).unwrap()),
     ))
 }
 
