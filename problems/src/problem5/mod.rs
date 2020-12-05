@@ -126,7 +126,7 @@ fn test_first() {
             Dir::Left,
             Dir::Right
         ],])
-        .unwrap(),
+        .unwrap()[0],
         357
     );
 
@@ -144,7 +144,7 @@ fn test_first() {
             Dir::Right,
             Dir::Right
         ],])
-        .unwrap(),
+        .unwrap()[0],
         119
     );
 }
