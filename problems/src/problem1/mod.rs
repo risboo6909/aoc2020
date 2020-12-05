@@ -45,7 +45,7 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input_raw = include_str!("./input");
     let input: Vec<usize> = split_by_lines(input_raw, &|e: &str| {
         e.parse::<usize>()
-            .or_else(|_| Err(format_err!("Failed to parse input")))
+            .map_err(|_| format_err!("Failed to parse input"))
     })?;
 
     Ok(RetTypes::Usize(result(
