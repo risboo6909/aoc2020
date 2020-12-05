@@ -5,6 +5,7 @@ mod problem1;
 mod problem2;
 mod problem3;
 mod problem4;
+mod problem5;
 
 use colored::*;
 use crossbeam::{queue::SegQueue, thread};
@@ -18,6 +19,7 @@ use crate::problem1 as p1;
 use crate::problem2 as p2;
 use crate::problem3 as p3;
 use crate::problem4 as p4;
+use crate::problem5 as p5;
 
 fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
     let now = SystemTime::now();
@@ -54,6 +56,7 @@ fn main() {
     q.push((&p2::solve, 2));
     q.push((&p3::solve, 3));
     q.push((&p4::solve, 4));
+    q.push((&p5::solve, 5));
 
     println!("{} cores detected\n", num_cpus::get_physical());
 
