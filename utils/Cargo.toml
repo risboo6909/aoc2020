@@ -11,4 +11,4 @@ colored = "1.8"
 failure = "0.1.6"
 num = "0.2"
 num-traits = "0.2"
-
+itertools = "0.8.2"

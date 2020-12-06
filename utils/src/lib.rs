@@ -12,7 +12,10 @@ use num_traits::{sign::Signed, CheckedDiv, Num};
 pub type ProblemResult<T> = Result<T, Error>;
 pub type ParseResult<T> = Result<T, Error>;
 
+mod groups_iter;
 mod ret_types;
+
+pub use groups_iter::GroupByEmptyLine;
 pub use ret_types::RetTypes;
 
 pub struct Ret<T, K> {

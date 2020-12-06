@@ -110,41 +110,47 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     )))
 }
 
-#[test]
-fn test_first() {
-    // FBFBBFFRLR
-    assert_eq!(
-        find_all_seats(&vec![vec![
-            Dir::Front,
-            Dir::Back,
-            Dir::Front,
-            Dir::Back,
-            Dir::Back,
-            Dir::Front,
-            Dir::Front,
-            Dir::Right,
-            Dir::Left,
-            Dir::Right
-        ],])
-        .unwrap()[0],
-        357
-    );
+#[cfg(test)]
+mod tests {
 
-    // FFFBBBFRRR
-    assert_eq!(
-        find_all_seats(&vec![vec![
-            Dir::Front,
-            Dir::Front,
-            Dir::Front,
-            Dir::Back,
-            Dir::Back,
-            Dir::Back,
-            Dir::Front,
-            Dir::Right,
-            Dir::Right,
-            Dir::Right
-        ],])
-        .unwrap()[0],
-        119
-    );
+    use super::{find_all_seats, Dir};
+
+    #[test]
+    fn test_first() {
+        // FBFBBFFRLR
+        assert_eq!(
+            find_all_seats(&vec![vec![
+                Dir::Front,
+                Dir::Back,
+                Dir::Front,
+                Dir::Back,
+                Dir::Back,
+                Dir::Front,
+                Dir::Front,
+                Dir::Right,
+                Dir::Left,
+                Dir::Right
+            ],])
+            .unwrap()[0],
+            357
+        );
+
+        // FFFBBBFRRR
+        assert_eq!(
+            find_all_seats(&vec![vec![
+                Dir::Front,
+                Dir::Front,
+                Dir::Front,
+                Dir::Back,
+                Dir::Back,
+                Dir::Back,
+                Dir::Front,
+                Dir::Right,
+                Dir::Right,
+                Dir::Right
+            ],])
+            .unwrap()[0],
+            119
+        );
+    }
 }
