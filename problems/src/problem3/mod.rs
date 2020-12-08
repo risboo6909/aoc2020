@@ -133,7 +133,7 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let board = parse(RAW_INPUT).unwrap();
+        let board = parse(RAW_INPUT);
 
         assert_eq!(board.width, 11);
         assert_eq!(board.height, 11);
@@ -141,13 +141,13 @@ mod tests {
 
     #[test]
     fn test_first() {
-        let board = parse(RAW_INPUT).unwrap();
+        let board = parse(RAW_INPUT);
         assert_eq!(first_star(&board, &Slope { right: 3, down: 1 }), 7);
     }
 
     #[test]
     fn test_second() {
-        let board = parse(RAW_INPUT).unwrap();
+        let board = parse(RAW_INPUT);
         assert_eq!(second_star(&board, SLOPES), 336);
     }
 }
