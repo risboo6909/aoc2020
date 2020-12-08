@@ -63,6 +63,7 @@ fn parse(input_raw: &str) -> Vec<Vec<String>> {
     groups
 }
 
+#[allow(clippy::unnecessary_wraps)]
 pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input_raw = include_str!("./input");
     let groups = parse(input_raw);

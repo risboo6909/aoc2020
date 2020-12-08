@@ -8,6 +8,7 @@ mod problem4;
 mod problem5;
 mod problem6;
 mod problem7;
+mod problem8;
 
 use colored::*;
 use crossbeam::{queue::SegQueue, thread};
@@ -24,6 +25,7 @@ use crate::problem4 as p4;
 use crate::problem5 as p5;
 use crate::problem6 as p6;
 use crate::problem7 as p7;
+use crate::problem8 as p8;
 
 fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
     let now = SystemTime::now();
@@ -53,6 +55,7 @@ fn exec(f: &(dyn Fn() -> Result<RetTypes, Error>), problem_no: usize) {
 fn main() {
     println!("\n{}\n\n", "Advent of code 2020".bold());
 
+    #[allow(clippy::type_complexity)]
     let q: Arc<SegQueue<(&(dyn Fn() -> Result<RetTypes, Error> + Sync), usize)>> =
         Arc::new(SegQueue::new());
 
@@ -63,6 +66,7 @@ fn main() {
     q.push((&p5::solve, 5));
     q.push((&p6::solve, 6));
     q.push((&p7::solve, 7));
+    q.push((&p8::solve, 8));
 
     println!("{} cores detected\n", num_cpus::get_physical());
 

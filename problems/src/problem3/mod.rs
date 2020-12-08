@@ -102,6 +102,7 @@ fn parse(input_raw: &[u8]) -> Board {
     Board::new(field, cols, rows + 1)
 }
 
+#[allow(clippy::unnecessary_wraps)]
 pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input_raw = include_bytes!("./input");
     let board = parse(input_raw);
