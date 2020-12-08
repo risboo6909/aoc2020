@@ -1,8 +1,8 @@
-use std::collections::HashSet;
 use failure::Error;
-use utils::{result, GroupByEmptyLine, ProblemResult, RetTypes};
+use std::collections::HashSet;
+use utils::{result, GroupByEmptyLine, RetTypes};
 
-fn first_star(groups: &[Vec<String>]) -> ProblemResult<usize> {
+fn first_star(groups: &[Vec<String>]) -> usize {
     let mut net = 0;
     let mut set = HashSet::new();
 
@@ -16,24 +16,21 @@ fn first_star(groups: &[Vec<String>]) -> ProblemResult<usize> {
         net += set.len();
     }
 
-    Ok(net)
+    net
 }
 
-fn second_star(groups: &[Vec<String>]) -> ProblemResult<usize> {
-
+fn second_star(groups: &[Vec<String>]) -> usize {
     let mut net = 0;
 
     let mut set = HashSet::new();
-    let mut new_set = HashSet::new();       
+    let mut new_set = HashSet::new();
 
     for group in groups {
-
         set.clear();
 
-        for (idx, line) in group.iter().enumerate() { 
-        
-            new_set.clear();      
-        
+        for (idx, line) in group.iter().enumerate() {
+            new_set.clear();
+
             line.chars().for_each(|c| {
                 if idx == 0 {
                     set.insert(c);
@@ -43,16 +40,17 @@ fn second_star(groups: &[Vec<String>]) -> ProblemResult<usize> {
             });
 
             if !new_set.is_empty() {
-                set = set.intersection(&new_set).copied().collect::<HashSet<char>>();
+                set = set
+                    .intersection(&new_set)
+                    .copied()
+                    .collect::<HashSet<char>>();
             }
-
         }
 
         net += set.len();
-
     }
-    
-    Ok(net)
+
+    net
 }
 
 fn parse(input_raw: &str) -> Vec<Vec<String>> {
@@ -69,42 +67,31 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input_raw = include_str!("./input");
     let groups = parse(input_raw);
 
-    Ok(RetTypes::Usize(result(first_star(&groups), second_star(&groups))))
+    Ok(RetTypes::Usize(result(
+        Ok(first_star(&groups)),
+        Ok(second_star(&groups)),
+    )))
 }
 
 #[cfg(test)]
 mod tests {
 
-    use super::{parse, first_star, second_star};
+    use super::{first_star, parse, second_star};
 
-    const INPUT_RAW: &str = 
-    concat!(
-        "abc\n",
-        "\n",
-        "a\n",
-        "b\n",
-        "c\n",
-        "\n",
-        "ab\n",
-        "ac\n",
-        "\n",
-        "a\n",
-        "a\n",
-        "a\n",
-        "a\n",
-        "\n",
-        "b\n",
+    const INPUT_RAW: &str = concat!(
+        "abc\n", "\n", "a\n", "b\n", "c\n", "\n", "ab\n", "ac\n", "\n", "a\n", "a\n", "a\n", "a\n",
+        "\n", "b\n",
     );
 
     #[test]
     fn test_first_star() {
         let groups = parse(&INPUT_RAW);
-        assert_eq!(first_star(&groups).unwrap(), 11);
+        assert_eq!(first_star(&groups), 11);
     }
 
     #[test]
     fn test_second_star() {
         let groups = parse(&INPUT_RAW);
-        assert_eq!(second_star(&groups).unwrap(), 6);
+        assert_eq!(second_star(&groups), 6);
     }
 }

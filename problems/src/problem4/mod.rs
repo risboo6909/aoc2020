@@ -1,5 +1,5 @@
 use failure::{format_err, Error};
-use utils::{result, ProblemResult, RetTypes};
+use utils::{result, ParseResult, RetTypes};
 
 const EYE_COLOR: &[&str] = &["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
 
@@ -107,21 +107,21 @@ impl Passport {
     }
 }
 
-fn first_star(input: &[Passport]) -> ProblemResult<usize> {
-    Ok(input
+fn first_star(input: &[Passport]) -> usize {
+    input
         .iter()
         .map(|passp| if passp.is_valid_1() { 1 } else { 0 })
-        .sum())
+        .sum()
 }
 
-fn second_star(input: &[Passport]) -> ProblemResult<usize> {
-    Ok(input
+fn second_star(input: &[Passport]) -> usize {
+    input
         .iter()
         .map(|passp| if passp.is_valid_2() { 1 } else { 0 })
-        .sum())
+        .sum()
 }
 
-fn parse_field(field: &str, pasp: &mut Passport) -> ProblemResult<()> {
+fn parse_field(field: &str, pasp: &mut Passport) -> ParseResult<()> {
     let parts: Vec<&str> = field.split(':').collect();
     let (name, value) = (parts[0], parts[1]);
 
@@ -166,8 +166,8 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input = parse(input_raw)?;
 
     Ok(RetTypes::Usize(result(
-        first_star(&input),
-        second_star(&input),
+        Ok(first_star(&input)),
+        Ok(second_star(&input)),
     )))
 }
 
@@ -206,12 +206,12 @@ iyr:2011 ecl:brn hgt:59in"#;
     #[test]
     fn test_first() {
         let parsed = parse(INPUT_RAW).unwrap();
-        assert_eq!(first_star(&parsed).unwrap(), 2);
+        assert_eq!(first_star(&parsed), 2);
     }
 
     #[test]
     fn test_second() {
         let parsed = parse(INPUT_RAW).unwrap();
-        assert_eq!(second_star(&parsed).unwrap(), 2);
+        assert_eq!(second_star(&parsed), 2);
     }
 }

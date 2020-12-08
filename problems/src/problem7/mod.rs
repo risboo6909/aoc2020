@@ -9,7 +9,7 @@ struct BagNameCount {
     count: usize,
 }
 
-fn first_star_helper(all: &HashMap<String, Vec<BagNameCount>>, bags: &Vec<BagNameCount>) -> bool {
+fn first_star_helper(all: &HashMap<String, Vec<BagNameCount>>, bags: &[BagNameCount]) -> bool {
     for bag in bags {
         if bag.name == "shiny gold" {
             return true;

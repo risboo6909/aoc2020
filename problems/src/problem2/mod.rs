@@ -1,5 +1,5 @@
 use failure::Error;
-use utils::{result, split_by_lines, ProblemResult, RetTypes};
+use utils::{result, split_by_lines, RetTypes};
 
 #[derive(Debug)]
 struct PasswdItem {
@@ -27,18 +27,18 @@ impl PasswdItem {
     }
 }
 
-fn first_star(input: &[PasswdItem]) -> ProblemResult<usize> {
-    Ok(input
+fn first_star(input: &[PasswdItem]) -> usize {
+    input
         .iter()
         .map(|attempt| if attempt.is_valid_1() { 1 } else { 0 })
-        .sum())
+        .sum()
 }
 
-fn second_star(input: &[PasswdItem]) -> ProblemResult<usize> {
-    Ok(input
+fn second_star(input: &[PasswdItem]) -> usize {
+    input
         .iter()
         .map(|attempt| if attempt.is_valid_2() { 1 } else { 0 })
-        .sum())
+        .sum()
 }
 
 fn parse(input_raw: &str) -> Result<Vec<PasswdItem>, Error> {
@@ -64,8 +64,8 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input = parse(input_raw)?;
 
     Ok(RetTypes::Usize(result(
-        first_star(&input),
-        second_star(&input),
+        Ok(first_star(&input)),
+        Ok(second_star(&input)),
     )))
 }
 

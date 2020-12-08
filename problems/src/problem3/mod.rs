@@ -1,5 +1,5 @@
 use failure::Error;
-use utils::{result, ProblemResult, RetTypes};
+use utils::{result, RetTypes};
 
 const SLOPES: &[Slope] = &[
     Slope { right: 1, down: 1 },
@@ -56,7 +56,7 @@ impl Board {
     }
 }
 
-fn first_star(board: &Board, slope: &Slope) -> ProblemResult<usize> {
+fn first_star(board: &Board, slope: &Slope) -> usize {
     let mut cur_col = 0;
     let mut cur_row = 0;
 
@@ -71,16 +71,16 @@ fn first_star(board: &Board, slope: &Slope) -> ProblemResult<usize> {
         cur_row += slope.down;
     }
 
-    Ok(trees_count)
+    trees_count
 }
 
-fn second_star(board: &Board, slopes: &[Slope]) -> ProblemResult<usize> {
-    Ok(Iterator::product(
-        slopes.iter().map(|slope| first_star(board, slope).unwrap()),
-    ))
+fn second_star(board: &Board, slopes: &[Slope]) -> usize {
+    Iterator::product(
+        slopes.iter().map(|slope| first_star(board, slope)),
+    )
 }
 
-fn parse(input_raw: &[u8]) -> Result<Board, Error> {
+fn parse(input_raw: &[u8]) -> Board {
     let mut field = Vec::new();
 
     let mut rows = 0;
@@ -99,16 +99,16 @@ fn parse(input_raw: &[u8]) -> Result<Board, Error> {
     }
 
     // rows + 1 because there is must be no '\n' at the end of file
-    Ok(Board::new(field, cols, rows + 1))
+    Board::new(field, cols, rows + 1)
 }
 
 pub(crate) fn solve() -> Result<RetTypes, Error> {
     let input_raw = include_bytes!("./input");
-    let board = parse(input_raw)?;
+    let board = parse(input_raw);
 
     Ok(RetTypes::Usize(result(
-        first_star(&board, &Slope { right: 3, down: 1 }),
-        second_star(&board, SLOPES),
+        Ok(first_star(&board, &Slope { right: 3, down: 1 })),
+        Ok(second_star(&board, SLOPES)),
     )))
 }
 
@@ -142,12 +142,12 @@ mod tests {
     #[test]
     fn test_first() {
         let board = parse(RAW_INPUT).unwrap();
-        assert_eq!(first_star(&board, &Slope { right: 3, down: 1 }).unwrap(), 7);
+        assert_eq!(first_star(&board, &Slope { right: 3, down: 1 }), 7);
     }
 
     #[test]
     fn test_second() {
         let board = parse(RAW_INPUT).unwrap();
-        assert_eq!(second_star(&board, SLOPES).unwrap(), 336);
+        assert_eq!(second_star(&board, SLOPES), 336);
     }
 }

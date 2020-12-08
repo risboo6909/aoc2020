@@ -71,18 +71,18 @@ fn find_all_seats(input: &[Vec<Dir>]) -> ProblemResult<Vec<usize>> {
     Ok(seats)
 }
 
-fn first_star(input: &[usize]) -> ProblemResult<usize> {
-    Ok(*input.iter().max().unwrap())
+fn first_star(input: &[usize]) -> usize {
+    *input.iter().max().unwrap()
 }
 
-fn second_star(input: &[usize]) -> ProblemResult<usize> {
+fn second_star(input: &[usize]) -> usize {
     let min = input.iter().min().unwrap();
     let max = input.iter().max().unwrap();
 
     let expected_sum: usize = (*min..=*max).sum();
     let cur_sum: usize = input.iter().sum();
 
-    Ok(expected_sum - cur_sum)
+    expected_sum - cur_sum
 }
 
 pub(crate) fn solve() -> Result<RetTypes, Error> {
@@ -105,8 +105,8 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     let seats = find_all_seats(&input)?;
 
     Ok(RetTypes::Usize(result(
-        first_star(&seats),
-        second_star(&seats),
+        Ok(first_star(&seats)),
+        Ok(second_star(&seats)),
     )))
 }
 
