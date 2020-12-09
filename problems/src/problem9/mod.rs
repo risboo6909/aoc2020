@@ -26,7 +26,6 @@ fn find_pair_sum(input: &[usize], expected: usize) -> Option<(usize, usize)> {
 
 fn first_star(input: &[usize], window_size: usize) -> usize {
     for idx in 0..input.len() {
-        //println!("{:?}, &input")
         match find_pair_sum(&input[idx..idx + window_size], input[idx + window_size]) {
             Some(_) => {}
             None => return input[idx + window_size],
