@@ -38,7 +38,6 @@ fn second_star_helper(
     all: &HashMap<String, Vec<BagNameCount>>,
     bags: &[BagNameCount],
 ) -> (usize, usize) {
-
     let mut accum_bags = 0;
     let mut current_bags = 0;
 
@@ -115,6 +114,6 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
 
     Ok(RetTypes::Usize(result(
         Ok(first_star(&input)),
-        Ok(second_star(&input))
+        Ok(second_star(&input)),
     )))
 }

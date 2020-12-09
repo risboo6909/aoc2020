@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-use failure::{Error, format_err};
-use utils::{result, split_by_lines, RetTypes};
+use failure::{format_err, Error};
+use utils::{result, split_by_lines, ProblemResult, RetTypes};
 
 #[derive(Debug)]
 enum Op {
@@ -18,18 +18,15 @@ struct Computer {
 type IsLoop = bool;
 
 impl Computer {
-
     fn run(&mut self, program: &[Op]) -> IsLoop {
-
         let mut line_numbers = HashSet::new();
         let mut ip = 0isize;
 
         self.acc = 0;
 
         while ip < program.len() as isize {
-
             if line_numbers.contains(&ip) {
-                return true
+                return true;
             }
 
             let op = &program[ip as usize];
@@ -38,18 +35,17 @@ impl Computer {
             match op {
                 Op::Acc(arg) => {
                     self.acc += arg;
-                },
+                }
                 Op::Jmp(arg) => {
                     ip += arg;
                     continue;
-                },
-                Op::Nop(_) => {},
+                }
+                Op::Nop(_) => {}
             }
             ip += 1;
         }
 
         false
-
     }
 }
 
@@ -62,27 +58,31 @@ fn first_star(input: &[Op]) -> isize {
 
 fn switch_op_at_idx(input: &mut [Op], idx: usize) -> bool {
     match input[idx] {
-        Op::Jmp(arg) => {input[idx] = Op::Nop(arg); true}
-        Op::Nop(arg) => {input[idx] = Op::Jmp(arg); true}
+        Op::Jmp(arg) => {
+            input[idx] = Op::Nop(arg);
+            true
+        }
+        Op::Nop(arg) => {
+            input[idx] = Op::Jmp(arg);
+            true
+        }
         _ => false,
     }
-} 
+}
 
-fn second_star(input: &mut [Op]) -> isize {
+fn second_star(input: &mut [Op]) -> ProblemResult<isize> {
     let mut c = Computer::default();
 
     for idx in 0..input.len() {
-
         if c.run(&input) {
-
             if !switch_op_at_idx(input, idx) {
                 // we can't switch 'acc'
-                continue
+                continue;
             }
 
             if !c.run(&input) {
                 // no loop, we've fixed the program
-                return c.acc
+                return Ok(c.acc);
             }
 
             // restore previous state for the given index
@@ -90,7 +90,7 @@ fn second_star(input: &mut [Op]) -> isize {
         }
     }
 
-    0
+    Err(format_err!("solution not found"))
 }
 
 fn parse(input_raw: &str) -> Result<Vec<Op>, Error> {
@@ -106,7 +106,6 @@ fn parse(input_raw: &str) -> Result<Vec<Op>, Error> {
             "nop" => Ok(Op::Nop(arg)),
             _ => Err(format_err!("unknown op '{}'", op)),
         }
-
     });
 
     res
@@ -120,8 +119,5 @@ pub(crate) fn solve() -> Result<RetTypes, Error> {
     // just to be sure I won't brake anything doing part two
     assert_eq!(fst, 1337);
 
-    Ok(RetTypes::Isize(result(
-        Ok(fst),
-        Ok(second_star(&mut input)),
-    )))
+    Ok(RetTypes::Isize(result(Ok(fst), second_star(&mut input))))
 }

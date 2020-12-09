@@ -75,9 +75,7 @@ fn first_star(board: &Board, slope: &Slope) -> usize {
 }
 
 fn second_star(board: &Board, slopes: &[Slope]) -> usize {
-    Iterator::product(
-        slopes.iter().map(|slope| first_star(board, slope)),
-    )
+    Iterator::product(slopes.iter().map(|slope| first_star(board, slope)))
 }
 
 fn parse(input_raw: &[u8]) -> Board {
