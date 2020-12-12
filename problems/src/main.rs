@@ -3,6 +3,7 @@
 
 mod problem1;
 mod problem10;
+mod problem11;
 mod problem2;
 mod problem3;
 mod problem4;
@@ -22,6 +23,7 @@ use utils::RetTypes;
 // problems
 use crate::problem1 as p1;
 use crate::problem10 as p10;
+use crate::problem11 as p11;
 use crate::problem2 as p2;
 use crate::problem3 as p3;
 use crate::problem4 as p4;
@@ -73,6 +75,7 @@ fn main() {
     q.push((&p8::solve, 8));
     q.push((&p9::solve, 9));
     q.push((&p10::solve, 10));
+    q.push((&p11::solve, 11));
 
     println!("{} cores detected\n", num_cpus::get_physical());
 
