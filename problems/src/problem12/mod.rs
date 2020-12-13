@@ -111,15 +111,15 @@ impl MovingShip {
         if let Op::L(deg) = op {
             match deg % 360 {
                 90 => {
-                    local.y = -1 * local.y;
+                    local.y *= -1;
                     local.swap();
                 }
                 180 => {
-                    local.x = -1 * local.x;
-                    local.y = -1 * local.y;
+                    local.x *= -1;
+                    local.y *= -1;
                 }
                 270 => {
-                    local.x = -1 * local.x;
+                    local.x *= -1;
                     local.swap();
                 }
                 _ => {}
@@ -127,15 +127,15 @@ impl MovingShip {
         } else if let Op::R(deg) = op {
             match deg % 360 {
                 90 => {
-                    local.x = -1 * local.x;
+                    local.x *= -1;
                     local.swap();
                 }
                 180 => {
-                    local.x = -1 * local.x;
-                    local.y = -1 * local.y;
+                    local.x *= -1;
+                    local.y *= -1;
                 }
                 270 => {
-                    local.y = -1 * local.y;
+                    local.y *= -1;
                     local.swap();
                 }
                 _ => {}
@@ -202,7 +202,7 @@ fn second_star(input: &[Op]) -> usize {
 }
 
 fn parse(input_raw: &str) -> Result<Vec<Op>, Error> {
-    let res = split_by_lines(input_raw, &|line: &str| {
+    split_by_lines(input_raw, &|line: &str| {
         let (op, n_str) = (&line[..1], &line[1..]);
         let n = n_str.parse::<isize>()?;
 
@@ -214,11 +214,9 @@ fn parse(input_raw: &str) -> Result<Vec<Op>, Error> {
             "L" => Ok(Op::L(n)),
             "R" => Ok(Op::R(n)),
             "F" => Ok(Op::F(n)),
-            _ => return Err(format_err!("unknown op '{}'", op)),
+            _ => Err(format_err!("unknown op '{}'", op)),
         }
-    });
-
-    res
+    })
 }
 
 pub(crate) fn solve() -> Result<RetTypes, Error> {
