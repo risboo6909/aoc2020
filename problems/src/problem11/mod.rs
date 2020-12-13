@@ -80,7 +80,7 @@ fn get_adjecent(board: &[Vec<Cell>], row: usize, col: usize, n: usize) -> Vec<Di
     let mut res = vec![];
 
     if n >= board.len() || n >= board[0].len() {
-        return res
+        return res;
     }
 
     // north
@@ -139,7 +139,7 @@ fn scan_lines(board: &[Vec<Cell>], row: usize, col: usize, _n: usize) -> Vec<Dir
         }
 
         for dir in adj {
-            if dir.is_floor() || res.contains(&dir){
+            if dir.is_floor() || res.contains(&dir) {
                 continue;
             }
             res.push(dir)
@@ -182,7 +182,6 @@ fn update_board(
     cur_board: &mut [Vec<Cell>],
     occupied_around: usize,
 ) {
-
     let f = |acc: usize, c: &Dir| {
         if c.unwrap() == Cell::Occupied {
             acc + 1
@@ -205,9 +204,7 @@ fn update_board(
                 }
                 Cell::Occupied => {
                     // occupied_around or more seats adjacent to it are also occupied, the seat becomes empty
-                    if scan_fn(&prev_board, row_idx, col_idx, 1)
-                        .iter()
-                        .fold(0, f)
+                    if scan_fn(&prev_board, row_idx, col_idx, 1).iter().fold(0, f)
                         >= occupied_around
                     {
                         cur_board[row_idx][col_idx] = Cell::Empty;
