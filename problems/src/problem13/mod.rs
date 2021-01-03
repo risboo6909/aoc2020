@@ -55,7 +55,6 @@ fn first_star(sched: &Sched) -> usize {
     res.0 * res.1
 }
 
-// brute-force solution to 13.2, mostly to validate smarter approaches
 fn brute_force(sched: &Sched, start_offset: usize) -> usize {
     let mut ts = start_offset;
 
