@@ -245,7 +245,6 @@ fn second_star(board: &[Vec<Cell>]) -> usize {
     let mut cur_board = clone_board(board);
 
     loop {
-        //_print_board(&cur_board);
         update_board(&scan_lines, &prev_board, &mut cur_board, 5);
 
         if check_eq(&prev_board, &cur_board) {
