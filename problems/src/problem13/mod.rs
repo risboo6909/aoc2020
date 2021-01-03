@@ -3,7 +3,7 @@ use std::borrow::Cow;
 use failure::{format_err, Error};
 use utils::{result, RetTypes};
 
-const BRUTE_FORCE_N: usize = 5;
+const BRUTE_FORCE_N: usize = 4;
 
 #[derive(Debug)]
 struct Sched<'a> {
