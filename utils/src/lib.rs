@@ -114,7 +114,13 @@ pub fn result<T: Debug, K: Debug>(basic: ProblemResult<T>, adv: ProblemResult<K>
 }
 
 pub fn split_by_lines<T>(input: &str, f: &dyn Fn(&str) -> ParseResult<T>) -> ParseResult<Vec<T>> {
-    split_by(input, "\n", f)
+    let res: ParseResult<Vec<_>> = input
+        .lines()
+        .filter(|item| item != &"")
+        .map(|item| f(item))
+        .collect();
+
+    res
 }
 
 pub fn split_by_comma<T>(input: &str, f: &dyn Fn(&str) -> ParseResult<T>) -> ParseResult<Vec<T>> {

@@ -156,15 +156,13 @@ fn check_eq(board_1: &[Vec<Cell>], board_2: &[Vec<Cell>]) -> bool {
         .iter()
         .flatten()
         .zip(board_2.iter().flatten())
-        .try_for_each(
-            |(c1, c2)| -> Result<(), ()> {
-                if c1 != c2 {
-                    Err(())
-                } else {
-                    Ok(())
-                }
-            },
-        )
+        .try_for_each(|(c1, c2)| -> Result<(), ()> {
+            if c1 != c2 {
+                Err(())
+            } else {
+                Ok(())
+            }
+        })
         .is_ok()
 }
 

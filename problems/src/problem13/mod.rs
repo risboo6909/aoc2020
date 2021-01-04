@@ -92,13 +92,16 @@ fn second_star(sched: &Sched, brute_force_items: usize) -> usize {
 }
 
 fn parse(input_raw: &str) -> Result<Sched, Error> {
-    let mut splitter = input_raw.split('\n');
+    let mut splitter = input_raw.lines();
 
     let n = splitter
         .next()
         .ok_or_else(|| format_err!("can't parse timestamp"))?
         .parse::<usize>()?;
-    let sched_raw = splitter.next().ok_or_else(|| format_err!("can't parse timestamp"))?;
+
+    let sched_raw = splitter
+        .next()
+        .ok_or_else(|| format_err!("can't parse timestamp"))?;
 
     let mut intervals: Vec<usize> = vec![];
     let mut deltas: Vec<usize> = vec![];
