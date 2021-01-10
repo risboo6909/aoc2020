@@ -7,6 +7,7 @@ mod problem12;
 mod problem13;
 mod problem14;
 mod problem15;
+mod problem16;
 mod problem2;
 mod problem3;
 mod problem4;
@@ -31,6 +32,7 @@ use crate::problem12 as p12;
 use crate::problem13 as p13;
 use crate::problem14 as p14;
 use crate::problem15 as p15;
+use crate::problem16 as p16;
 use crate::problem2 as p2;
 use crate::problem3 as p3;
 use crate::problem4 as p4;
@@ -87,6 +89,7 @@ fn main() {
     q.push((&p13::solve, 13));
     q.push((&p14::solve, 14));
     q.push((&p15::solve, 15));
+    q.push((&p16::solve, 16));
 
     println!("{} cores detected\n", num_cpus::get_physical());
 

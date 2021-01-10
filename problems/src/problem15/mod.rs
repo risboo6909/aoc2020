@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::hash::BuildHasherDefault;
 
 use failure::Error;
-use fxhash::{FxHasher, FxBuildHasher};
+use fxhash::{FxBuildHasher, FxHasher};
 
 use utils::{result, RetTypes};
 
@@ -16,13 +16,15 @@ fn find_last_number(seq: &HashMap<usize, Vec<SeqIndex>, BuildHasherDefault<FxHas
     *tmp.0
 }
 
-fn find_last(seq: &mut HashMap<usize, Vec<SeqIndex>, BuildHasherDefault<FxHasher>>, scan_until: usize) -> usize {
+fn find_last(
+    seq: &mut HashMap<usize, Vec<SeqIndex>, BuildHasherDefault<FxHasher>>,
+    scan_until: usize,
+) -> usize {
     let mut last_num = find_last_number(seq);
 
     assert!(scan_until > seq.len());
 
     for _ in 0..scan_until - seq.len() {
-        
         let indices = &seq[&last_num];
         let l = indices.len();
 
@@ -52,7 +54,9 @@ fn second_star(seq: &mut HashMap<usize, Vec<SeqIndex>, BuildHasherDefault<FxHash
     find_last(seq, 30000000)
 }
 
-fn parse(input_raw: &str) -> Result<HashMap<usize, Vec<SeqIndex>, BuildHasherDefault<FxHasher>>, Error> {
+fn parse(
+    input_raw: &str,
+) -> Result<HashMap<usize, Vec<SeqIndex>, BuildHasherDefault<FxHasher>>, Error> {
     let mut res = HashMap::with_hasher(FxBuildHasher::default());
     input_raw
         .split(',')
