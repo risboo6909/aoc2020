@@ -90,19 +90,17 @@ fn second_star(tickets: &Tickets) -> usize {
 
     // for a given field label find appropriate set of values
     while fields_map.len() < tickets.fields_ranges.len() {
-
         // start all over
         if value_idx >= tickets.fields_ranges.len() {
             value_idx = 0;
         }
 
         let mut matched = 0;
-        
+
         let mut found_label = String::new();
         let mut remove_idx = 0;
 
         'outer: for (order_idx, label) in fields_order.iter().enumerate() {
-
             let field_intervals = tickets.fields_ranges.get(label).unwrap();
             if !field_intervals.is_inside_interval(tickets.my_ticket[value_idx]) {
                 continue;
@@ -118,7 +116,6 @@ fn second_star(tickets: &Tickets) -> usize {
 
             found_label = label.clone();
             remove_idx = order_idx;
-
         }
 
         // eleminate only fields we are soure about
@@ -178,7 +175,6 @@ fn parse(input_raw: &str) -> Result<Tickets, Error> {
                 }
 
                 tickets.fields_order.push(label.to_owned());
-
             }
             ParseState::MyTicket => {
                 if line.trim() == "nearby tickets:" {
