@@ -91,10 +91,16 @@ fn second_star(input: &[Vec<Token>]) -> Result<usize, Error> {
             match tok {
                 Token::CloseParen => {
                     stack = eval_parens(stack)?;
+                    // after evaluating expresion in parentesis, look back and compute possible nearest '+' operation if exists
+                    // and push the result back into stack, for example:
+                    // 3 + (2 * 3) * 2 => 3 + (6) * 2 => 9 * 2 = 18
                     stack = fold_addition(stack)?;
                 }
                 Token::Number(_) => {
                     stack.push(tok.clone());
+                    // if we encountered a number, try to look back and compute possible nearest '+' operation if exists
+                    // and push the result back into stack, for example:
+                    // 3 + 2 * 4 => 5 * 4 => 20
                     stack = fold_addition(stack)?;
                 }
                 _ => stack.push(tok.clone()),
