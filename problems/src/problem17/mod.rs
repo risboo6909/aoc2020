@@ -34,7 +34,7 @@ where
     let mut cur_universe: HashSet<T> = HashSet::new();
 
     for cube in initial_cubes {
-        cur_universe.insert(cube.clone());
+        cur_universe.insert(*cube);
     }
 
     for _ in 0..6 {
